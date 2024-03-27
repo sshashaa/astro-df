@@ -80,7 +80,7 @@ for solver in solvers:
 
     solver_display = solver
     if solver == "ASTRODFRF":
-        solver_display = "Refined ASTRO-DF"
+        solver_display = "ASTRO-DF-C"
     elif solver == "ASTRODFORG":
         solver_display = "ASTRO-DF"
 

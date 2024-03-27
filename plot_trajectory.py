@@ -8,6 +8,8 @@ warnings.filterwarnings("ignore")
 
 sys.path.append(o.abspath(o.join(o.dirname(sys.modules[__name__].__file__), "..")))
 
+
+
 def plot_with_conf_interval(file1, file2, ylabel, output):
     conf_level = 0.95
 
@@ -43,10 +45,24 @@ def plot_with_conf_interval(file1, file2, ylabel, output):
     y_lower2 = [d[0] for d in conf_interval2]
     y_upper2 = [d[1] for d in conf_interval2]
 
-    plt.plot(x, mean1, color='C0', label='ASTRO-DF with Direct Search')
+    plt.figure(figsize=(7, 4.8))
+    plt.rc('font', size=14)  # Change the font size for labels and legends
+    plt.rc('xtick', labelsize=12)  # Change the font size for x-axis tick labels
+    plt.rc('ytick', labelsize=12)
+    #plt.xticks(rotation=45)  # X 축 레이블을 45도로 회전
+    plt.yticks(rotation=45)  # X 축 레이블을 45도로 회전
+    plt.xlabel('X-axis Label', fontsize=18)  # Adjust the font size as needed
+    plt.ylabel('Y-axis Label', fontsize=18)  # Adjust the font size as needed
+    #plt.legend(prop={'size': 14})  # Adjust the 'size' value as needed
+
+    plt.plot(x, mean1, color='C0', linewidth = 2, label='ASTRO-DF-C')
+    plt.plot(x, y_lower1, color='C0', linestyle='--', linewidth = 1)
+    plt.plot(x, y_upper1, color='C0', linestyle='--', linewidth = 1)
     plt.fill_between(x, y_lower1, y_upper1, alpha=0.2, color='C0')
 
-    plt.plot(x, mean2, color='C1', label='ASTRO-DF without Direct Search')
+    plt.plot(x, mean2, color='C1', linewidth = 2, label='ASTRO-DF')
+    plt.plot(x, y_lower2, color='C1', linestyle='--', linewidth = 1)
+    plt.plot(x, y_upper2, color='C1', linestyle='--', linewidth = 1)
     plt.fill_between(x, y_lower2, y_upper2, alpha=0.2, color='C1')
 
     plt.xlabel('Iteration k')
@@ -58,6 +74,7 @@ def plot_with_conf_interval(file1, file2, ylabel, output):
 # Plot RSBR
 plot_with_conf_interval('delta_rsbr_rf.npy', 'delta_rsbr_dh.npy', 'Delta', f"experiments/plots/delta_rsbr_trajectory.pdf")
 plot_with_conf_interval('function_rsbr_rf.npy', 'function_rsbr_dh.npy', 'Function Estimates', f"experiments/plots/function_rsbr_trajectory.pdf")
+plot_with_conf_interval('budget_rsbr_rf.npy', 'budget_rsbr_dh.npy', 'Expended Budget', f"experiments/plots/budget_rsbr_trajectory.pdf")
 
 # Plot SAN
 plot_with_conf_interval('delta_san_rf.npy', 'delta_san_dh.npy', 'Delta', f"experiments/plots/delta_san_trajectory.pdf")

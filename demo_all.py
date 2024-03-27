@@ -57,7 +57,8 @@ L = 200
 
 
 # Five solvers .
-solvers = ["ASTRODFRF", "ASTRODFORG", "ADAM", "ALOE", "STORM", "NELDMD", "STRONG"]
+solvers = ["ASTRODFRF"]
+#solvers = ["ASTRODFRF", "ASTRODFORG", "ADAM", "ALOE", "STORM", "NELDMD", "STRONG"]
 
 # First problem: SAN
 # Loop over problem instances.

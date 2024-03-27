@@ -19,12 +19,12 @@ for problem_name in problems:
 
     file_name = f"{'ASTRODFRF_problem'}_on_{problem_name}"
     experiment = read_experiment_results(f"experiments/outputs/{file_name}.pickle")
-    experiment.solver.name = "ASTRO-DF with Direct Search"
+    experiment.solver.name = "ASTRO-DF-C"
     myexperiment.append(experiment)
 
     file_name = f"{'ASTRODFDH_problem'}_on_{problem_name}"
     experiment = read_experiment_results(f"experiments/outputs/{file_name}.pickle")
-    experiment.solver.name = "ASTRO-DF without Direct Search"
+    experiment.solver.name = "ASTRO-DF"
     myexperiment.append(experiment)
 
     print("Plotting results.")
