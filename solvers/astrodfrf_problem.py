@@ -278,7 +278,7 @@ class ASTRODFRF_problem(Solver):
                     sig2 = new_solution.objectives_var
                     # adaptive sampling
                     while True:
-                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or expended_budget >= 0.1*budget:
+                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or sample_size >= 0.005*budget or expended_budget >= budget:
                             break
                         problem.simulate(new_solution, 1)
                         expended_budget += 1
@@ -292,7 +292,7 @@ class ASTRODFRF_problem(Solver):
                     sig2 = visited_pts_list[f_index].objectives_var
                     # adaptive sampling
                     while True:
-                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or expended_budget >= 0.1*budget:
+                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or sample_size >= 0.005*budget or expended_budget >= budget:
                             break
                         problem.simulate(visited_pts_list[f_index], 1)
                         expended_budget += 1
@@ -316,7 +316,7 @@ class ASTRODFRF_problem(Solver):
                         expended_budget += 1
                         sample_size += 1
                         sig2 = new_solution.objectives_var
-                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or expended_budget >= 0.1*budget:
+                        if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or sample_size >= 0.005*budget or expended_budget >= budget:
                             break
                     fval.append(-1 * problem.minmax[0] * new_solution.objectives_mean)
                     interpolation_solns.append(new_solution)
@@ -479,7 +479,7 @@ class ASTRODFRF_problem(Solver):
             expended_budget += 1
             sample_size += 1
             sig2 = candidate_solution.objectives_var
-            if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or expended_budget >= budget_limit:
+            if sample_size >= self.get_stopping_time(k, sig2, delta_k, kappa, problem.dim) or sample_size >= 0.005*budget_limit or expended_budget >= budget_limit:
                 break
 
         # calculate success ratio
@@ -599,9 +599,12 @@ class ASTRODFRF_problem(Solver):
         intermediate_budgets[0] = 0
 
         while k < 100:
-            delta_list.append(delta_k)
+            record_solution = self.create_new_solution(tuple(new_x), problem)
+            problem.simulate(record_solution, 100)
+            #print(record_solution.objectives_mean[0])
             gradient_list.append(norm_grad)
-            function_list.append(final_ob[0])
+            delta_list.append(delta_k)
+            function_list.append(record_solution.objectives_mean[0])
             budget_list.append(expended_budget)
             k += 1
             final_ob, delta_k, recommended_solns, intermediate_budgets, expended_budget, new_x, kappa, new_solution, visited_pts_list, norm_grad = self.iterate(k,
