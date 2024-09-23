@@ -1,2 +1,5 @@
 # astro-df
-Solver for stochastic derivative-free optimization
+
+ASTRO and ASTRO-C are solvers for stochastic derivative-free optimization. They provide adaptive sampling techniques to address high-dimensional, stochastic, and non-convex problems with minimal reliance on derivatives. The underlying optimization algorithm in both is a trust-region methodology suited for derivative-free (zeroth-order) stochastic oracles. 
+
+The local quadratic approximation of the unknown function is done via interpolation of estimated objective function values at a set of design points that are selected following a cartesian coordinate basis. This local approximation is then optimized within a neighborhood to find a trial point--a candidate for the next incumbent solution. ASTRO-C uses the trail steps generated with this local optimization (also known as the trust-region subproblem) but also includes the design points already evaluated to construct the model as a set of candidate solutions. This added step resembles direct search strategies widely used for derivative-free optimization and helps the finite-time performance of the algorithm by improving the probability of progress and slowing down the contraction of the step size (radius of the subproblem neighborhood).
